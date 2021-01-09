@@ -5,7 +5,7 @@ from views.family_graphql import FamilyGraphQl
 from views.model import schema
 
 cors = CORS()
-app = Flask(__name__)
+app = Flask(__name__,static_folder='client/build',static_url_path='')
 cors.init_app(app)
 app.debug = True
 
@@ -25,4 +25,4 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
