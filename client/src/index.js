@@ -12,7 +12,7 @@ import 'mdbreact/dist/css/mdb.css';
 
 
 const client = new ApolloClient({
-    uri: 'http://localhost:5000/api/family-tree',
+    uri: 'http://family-tree-kamilgw.herokuapp.com/api/family-tree',
     cache: new InMemoryCache(),
     onError: ({networkError, graphQLErrors}) => {
         console.log('graphQLErrors', graphQLErrors)
