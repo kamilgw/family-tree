@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory, make_response
 from py2neo import Graph
 from flask_cors import CORS
 from views.family_graphql import FamilyGraphQl
@@ -20,8 +20,9 @@ def page_not_found(e):
 
 
 @app.route('/')
-def hello_world():
-    return "Hello World"
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
+
 
 
 if __name__ == '__main__':
