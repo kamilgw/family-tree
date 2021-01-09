@@ -205,7 +205,7 @@ function ListRelations() {
                 <br/>
                 <br/>
                 <p className="text-center">Kuzyni</p>
-                {allRelation.cousins.map(function (item, i) {
+                {allRelation.cousins.map(function (item) {
                     return <p>{item}</p>;
                 })}
             </MDBCol>
@@ -219,7 +219,7 @@ function RelationsForm({onSubmitRelation}) {
     const [relation, setRelations] = useState({
         from_name: "",
         to_name: "",
-        relationship_type: "",
+        relationship_type: "PARENT",
     });
     return (
         <MDBCard>
