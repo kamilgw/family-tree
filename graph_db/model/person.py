@@ -7,7 +7,7 @@ from py2neo import NodeMatcher
 
 class Person(Model):
     __primarykey__ = 'name'
-    __primarylabel__ = 'Person'
+    __primarylabel__ = 'Person_u6GwizdzK'
     name = Property()
     birthdate = Property()
     gender = Property()

@@ -19,7 +19,7 @@ class PersonRelations:
         return self.find_parents(name) + self.find_children(name)
 
     def find_relative(self, name):
-        partner_query = f"MATCH (person:Person {{name:'{name}'}})-[:MARRIED]-(partner) " \
+        partner_query = f"MATCH (person:Person_u6GwizdzK {{name:'{name}'}})-[:MARRIED]-(partner) " \
                         f"RETURN partner"
         relatives = self._relative(name)
         partner_name = self._scan_result_set(self._graph.run(partner_query))
@@ -40,9 +40,9 @@ class PersonRelations:
 
     def add_relation(self, from_person_name, to_person_name, relationship_type):
         if relationship_type == RelationshipType.MARRIED:
-            partner_query = f"MATCH (person:Person {{name:'{from_person_name}'}})-[:MARRIED]-(partner) " \
+            partner_query = f"MATCH (person:Person_u6GwizdzK {{name:'{from_person_name}'}})-[:MARRIED]-(partner) " \
                             f"RETURN partner " \
-                            f"UNION MATCH (person:Person {{name:'{to_person_name}'}})-[:MARRIED]-(partner) " \
+                            f"UNION MATCH (person:Person_u6GwizdzK {{name:'{to_person_name}'}})-[:MARRIED]-(partner) " \
                             f"RETURN partner"
             partner_name = [person.name for person in self._scan_result_set(self._graph.run(partner_query))]
             if len(partner_name) > 0:
@@ -113,41 +113,41 @@ class PersonRelations:
         return [self.find(name) for name in names]
 
     def find_parents(self, name):
-        cousins_query = f"MATCH (person:Person{{name:'{name}'}})<-[:PARENT]-(parent) RETURN parent " \
-                        f"UNION MATCH (person:Person{{name:'{name}'}})<-[:PARENT]-(by_marriage)-" \
+        cousins_query = f"MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT]-(parent) RETURN parent " \
+                        f"UNION MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT]-(by_marriage)-" \
                         f"[:MARRIED]-(parent) RETURN parent"
         return self._scan_result_set(self._graph.run(cousins_query))
 
     def find_partner(self, name):
-        partner_query = f"MATCH (person:Person {{name:'{name}'}})-[:MARRIED]-(partner) " \
+        partner_query = f"MATCH (person:Person_u6GwizdzK {{name:'{name}'}})-[:MARRIED]-(partner) " \
                         f"RETURN partner"
         return self._scan_result_set(self._graph.run(partner_query))
 
     def find_children(self, name):
-        children_query = f"MATCH (person:Person{{name:'{name}'}})-[:MARRIED]-(partner)-[:PARENT]->(children) " \
-                         f"RETURN children UNION MATCH (person:Person{{name:'{name}'}})-[:PARENT]->(children) " \
+        children_query = f"MATCH (person:Person_u6GwizdzK{{name:'{name}'}})-[:MARRIED]-(partner)-[:PARENT]->(children) " \
+                         f"RETURN children UNION MATCH (person:Person_u6GwizdzK{{name:'{name}'}})-[:PARENT]->(children) " \
                          f"RETURN children"
         return self._scan_result_set(self._graph.run(children_query))
 
     def find_grandparents(self, name):
-        cousins_query = f"MATCH (person:Person{{name:'{name}'}})<-[:PARENT*2]-(grandparent) " \
+        cousins_query = f"MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT*2]-(grandparent) " \
                         f"RETURN grandparent UNION MATCH " \
-                        f"(person:Person{{name:'{name}'}})<-[:PARENT*2]-" \
+                        f"(person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT*2]-" \
                         f"(grand_by_marriage)-[:MARRIED]-(grandparent) RETURN grandparent"
         return self._scan_result_set(self._graph.run(cousins_query))
 
     def find_cousins(self, name):
-        cousins_query = f"MATCH (person:Person{{name:'{name}'}})<-[:PARENT*2]-(grandparent)-[:PARENT]->" \
+        cousins_query = f"MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT*2]-(grandparent)-[:PARENT]->" \
                         f"(sibling)-[:MARRIED]-(partner)<-[:PARENT]-(partner_parents)-[:PARENT]->(partner_sibling)-" \
-                        f"[:PARENT]->(cousins) RETURN cousins UNION MATCH (person:Person{{name:'{name}'}})" \
+                        f"[:PARENT]->(cousins) RETURN cousins UNION MATCH (person:Person_u6GwizdzK{{name:'{name}'}})" \
                         f"<-[:PARENT*2]-(grandparent), (grandparent)-[:PARENT]->(sibling)-[:PARENT]->(cousins)" \
                         f" RETURN cousins"
 
         return self._scan_result_set(self._graph.run(cousins_query))
 
     def find_siblings(self, name):
-        siblings_query = f"MATCH (person:Person{{name:'{name}'}})<-[:PARENT]-(parent)-[:PARENT]->(sibling) " \
-                         f"RETURN sibling UNION MATCH (person:Person{{name:'{name}'}})<-[:PARENT]" \
+        siblings_query = f"MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT]-(parent)-[:PARENT]->(sibling) " \
+                         f"RETURN sibling UNION MATCH (person:Person_u6GwizdzK{{name:'{name}'}})<-[:PARENT]" \
                          f"-(parent)-[:MARRIED]-(partner)-[:PARENT]->(sibling) " \
                          f"WHERE NOT(sibling.name = '{name}') RETURN  sibling"
         return self._scan_result_set(self._graph.run(siblings_query))
