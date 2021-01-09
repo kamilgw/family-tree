@@ -81,6 +81,7 @@ class PersonRelations:
         return len(related_names) > 0, from_person, to_person, related_names
 
     def update_or_create(self, person_input_dict):
+
         person = self.find(person_input_dict['name'])
         property_dict = {}
         if not person:

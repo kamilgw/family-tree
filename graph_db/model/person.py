@@ -60,6 +60,14 @@ class PersonValidator:
 
     @classmethod
     def validate_birthday(cls, **person_input):
+        # if 'birthdate' in person_input:
+        #     try:
+        #         datetime.date.fromisoformat(person_input['birthdate'])
+        #         return
+        #     except ValueError:
+        #         return ValidationResult.INVALID
+        # else:
+        #     return ValidationResult.ABSENT
         pass
 
     @classmethod
